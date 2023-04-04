@@ -132,3 +132,4 @@ dmypy.json
 .vscode
 /rank_0/om
 *.docx
+/data
