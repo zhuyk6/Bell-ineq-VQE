@@ -1,3 +1,5 @@
+from dm import *
+
 import numpy as np
 from mindquantum.simulator import Simulator
 from mindquantum.core.circuit import Circuit
@@ -107,7 +109,8 @@ class QNet3(ms.nn.Cell):
 def check_dim(P: np.matrix, n: int, m: int) -> bool:
     return P.shape == (n, m)
 
-def CHSH_qnn(rho: np.matrix):
+def CHSH_qnn(dm: DensityMatrix):
+    rho = dm.rho
     if not check_dim(rho, 4, 4):
         raise ValueError("CHSH only considers 2 qubits.")
 
@@ -141,7 +144,8 @@ def CHSH_qnn(rho: np.matrix):
             last = f[0]
     return -last
 
-def Svetlichny_qnn(rho: np.matrix):
+def Svetlichny_qnn(dm: DensityMatrix):
+    rho = dm.rho
     if not check_dim(rho, 8, 8):
         raise ValueError("Svetlichny considers only 3 qubits.")
     
