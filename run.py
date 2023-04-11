@@ -45,6 +45,28 @@ def rand_density_matrix(n_qubits: int, m: int) -> DensityMatrix:
     
     return DensityMatrix.build(rho)
 
+def rand_density_matrix_from_basis(n_qubits: int, m: int) -> DensityMatrix:
+    d = 2**n_qubits
+
+    mat_re = np.random.uniform(-1, 1, size=(d, d))
+    mat_im = np.random.uniform(-1, 1, size=(d, d))
+    mat = mat_re + 1j * mat_im
+    q, _ = np.linalg.qr(mat)
+    q = np.asmatrix(q)
+
+    m = min(m, d)
+    probabilities = np.random.random((m, ))
+    probabilities /= probabilities.sum()
+
+    rho = np.zeros(shape=(d,d), dtype=np.complex64)
+    rho = np.asmatrix(rho)
+    for c, p in enumerate(probabilities):
+        psi = q[:, c]
+        rho += p * psi @ psi.H
+    
+    return DensityMatrix.build(rho)
+
+
 def run_random2():
     m = 3
     for epoch in range(100):
